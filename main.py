@@ -1,5 +1,23 @@
 from tkinter import *
+#--------------------WORKING--------------------#
+import random
+def create_password(LET=12,sym=2,num=1):
+    letter=["a",'b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    numbers=['1','2','3','4','5','6','7','8','9','0']
+    symbols=['!',"@",'#','$',"%",'^','&',"*",'`','~']
+    password=[]
+    for i in range(LET):
+        password.append(random.choice(letter))
+    for i in range(sym):
+        password.append(random.choice(symbols))
+    for i in range(num):
+        password.append(random.choice(numbers))
+        
+    random.shuffle(password)
+    return "".join(password)
 
+print(create_password())
+#--------------------GUI--------------------#
 window=Tk()
 window.title("Password Generator")
 window.config(bg="black",padx=20,pady=20)
