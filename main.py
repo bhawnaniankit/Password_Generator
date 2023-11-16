@@ -3,14 +3,24 @@ from tkinter import messagebox
 
 #--------------------ADD TO TXT--------------------#
 def add_to_txt():
-    with open("./Password_Manager/password.txt",'a+') as pw:
-        content=pw.read()
-        if not content.startswith("|  Website  |  USERNAME  |  Password"):
+    if website_entry.get()=="" or username_entry.get()=="" or password_entry.get()=="":
+        messagebox.showerror("Form", "Enter usrname and website!",icon ='error')
+    else:
+        with open("./Password_Manager/password.txt",'a+') as pw:
             pw.seek(0)
-            pw.write("""|  Website  |  USERNAME  |  Password  |
-_______________________________________\n""")
-        pw.seek(0,2)
-        pw.write(f"|  {website_entry.get()}  |  {username_entry.get()}  |  {password_entry.get()}  |\n")
+            content=pw.read()
+            if not content.startswith("|  Website  |  USERNAME  |  Password  |"):
+                pw.seek(0)
+                pw.write("""|  Website  |  USERNAME  |  Password  |\n""")
+                
+            pw.seek(0,2)
+            pw.write(f"|  {website_entry.get()}  |  {username_entry.get()}  |  {password_entry.get()}  |\n")
+            
+        website_entry.delete(0,END)
+        username_entry.delete(0,END)
+        password_entry.delete(0,END)
+        
+        messagebox.showinfo("Information","Password Saved")
         
 #--------------------PASSOWRD DISPLAY--------------------#
 import random
@@ -31,7 +41,7 @@ def create_password(LET=7,sym=2,num=1):
 
 def generate():
     if website_entry.get()=="" or username_entry.get()=="":
-        messagebox.askretrycancel("Form", "Enter usrname and website!",icon ='error')
+        messagebox.showerror("ERROR!", "Enter usrname and website!",icon ='error')
     else:
         password_entry.delete(0,END)
         password_entry.insert(END,f"{create_password()}")
@@ -39,7 +49,7 @@ def generate():
 #--------------------GUI--------------------#
 window=Tk()
 window.title("Password Generator")
-window.config(bg="black",padx=20,pady=20)
+window.config(bg="black",padx=50,pady=20)
 
 canvas=Canvas(width=200,height=210,highlightthickness=0)
 logo=PhotoImage(file="./Password_Manager/new_logo1.png")
@@ -54,21 +64,21 @@ canvas.grid(row=0,column=1)
 # background.grid(row=0,column=1)
 
 website_entry=Entry(width=35)
-website_entry.grid(row=1,column=1)
+website_entry.grid(row=1,column=1,columnspan=2)
 
 username_entry=Entry(width=35)
-username_entry.grid(row=2,column=1)
+username_entry.grid(row=2,column=1,columnspan=2)
 
 password_entry=Entry(width=21)
 password_entry.grid(row=3,column=1)
 
-generate=Button(text="Generate",width=13,command=generate)
+generate=Button(text="Generate",command=generate)
 generate.config(font=("courier",10,"bold"))
 generate.grid(row=3,column=2)
 
 add=Button(text="Add",width=36,command=add_to_txt)
 add.config(font=("courier",10,"bold"))
-add.grid(row=4,column=1)
+add.grid(row=4,column=1,columnspan=2)
 
 website_label=Label(text="Website: ",height=2,font=("courier",10,"bold"))
 website_label.grid(row=1,column=0)
