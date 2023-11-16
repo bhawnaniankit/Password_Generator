@@ -1,7 +1,8 @@
 from tkinter import *
+from tkinter import messagebox
 #--------------------WORKING--------------------#
 import random
-def create_password(LET=12,sym=2,num=1):
+def create_password(LET=7,sym=2,num=1):
     letter=["a",'b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
     numbers=['1','2','3','4','5','6','7','8','9','0']
     symbols=['!',"@",'#','$',"%",'^','&',"*",'`','~']
@@ -16,7 +17,14 @@ def create_password(LET=12,sym=2,num=1):
     random.shuffle(password)
     return "".join(password)
 
-print(create_password())
+
+def generate():
+    if website_entry.get()=="" or username_entry.get()=="":
+        messagebox.askretrycancel("Form", "Enter usrname and website!",icon ='error')
+    else:
+        password_entry.delete(0,END)
+        password_entry.insert(END,f"{create_password()}")
+        print(create_password())
 #--------------------GUI--------------------#
 window=Tk()
 window.title("Password Generator")
@@ -43,7 +51,7 @@ username_entry.grid(row=2,column=1)
 password_entry=Entry(width=21)
 password_entry.grid(row=3,column=1)
 
-generate=Button(text="Generate",width=13)
+generate=Button(text="Generate",width=13,command=generate)
 generate.config(font=("courier",10,"bold"))
 generate.grid(row=3,column=2)
 
