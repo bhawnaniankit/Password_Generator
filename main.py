@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+import pyperclip
 
 #--------------------ADD TO TXT--------------------#
 def add_to_txt():
@@ -37,6 +38,7 @@ def create_password(LET=7,sym=2,num=1):
         password.append(random.choice(numbers))
         
     random.shuffle(password)
+    pyperclip.copy("".join(password))
     return "".join(password)
 
 def generate():
@@ -44,7 +46,7 @@ def generate():
         messagebox.showerror("ERROR!", "Enter usrname and website!",icon ='error')
     else:
         password_entry.delete(0,END)
-        password_entry.insert(END,f"{create_password()}")
+        password_entry.insert(0,f"{create_password()}")
         
 #--------------------GUI--------------------#
 window=Tk()
