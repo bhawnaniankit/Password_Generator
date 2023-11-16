@@ -1,11 +1,17 @@
 from tkinter import *
 from tkinter import messagebox
+
 #--------------------ADD TO TXT--------------------#
 def add_to_txt():
-    with open("./Password_Manager/password.txt",'a') as pw:
-        pw.write(f"{website_entry.get()} | {username_entry.get()} | {password_entry.get()} \n")
-
-
+    with open("./Password_Manager/password.txt",'a+') as pw:
+        content=pw.read()
+        if not content.startswith("|  Website  |  USERNAME  |  Password"):
+            pw.seek(0)
+            pw.write("""|  Website  |  USERNAME  |  Password  |
+_______________________________________\n""")
+        pw.seek(0,2)
+        pw.write(f"|  {website_entry.get()}  |  {username_entry.get()}  |  {password_entry.get()}  |\n")
+        
 #--------------------PASSOWRD DISPLAY--------------------#
 import random
 def create_password(LET=7,sym=2,num=1):
@@ -23,14 +29,13 @@ def create_password(LET=7,sym=2,num=1):
     random.shuffle(password)
     return "".join(password)
 
-
 def generate():
     if website_entry.get()=="" or username_entry.get()=="":
         messagebox.askretrycancel("Form", "Enter usrname and website!",icon ='error')
     else:
         password_entry.delete(0,END)
         password_entry.insert(END,f"{create_password()}")
-        print(create_password())
+        
 #--------------------GUI--------------------#
 window=Tk()
 window.title("Password Generator")
