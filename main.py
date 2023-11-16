@@ -1,6 +1,12 @@
 from tkinter import *
 from tkinter import messagebox
-#--------------------WORKING--------------------#
+#--------------------ADD TO TXT--------------------#
+def add_to_txt():
+    with open("./Password_Manager/password.txt",'a') as pw:
+        pw.write(f"{website_entry.get()} | {username_entry.get()} | {password_entry.get()} \n")
+
+
+#--------------------PASSOWRD DISPLAY--------------------#
 import random
 def create_password(LET=7,sym=2,num=1):
     letter=["a",'b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
@@ -55,7 +61,7 @@ generate=Button(text="Generate",width=13,command=generate)
 generate.config(font=("courier",10,"bold"))
 generate.grid(row=3,column=2)
 
-add=Button(text="Add",width=36)
+add=Button(text="Add",width=36,command=add_to_txt)
 add.config(font=("courier",10,"bold"))
 add.grid(row=4,column=1)
 
