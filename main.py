@@ -57,10 +57,19 @@ def search():
         messagebox.showerror("Form", "Enter usrname and website!",icon ='error')
     else:
         website=website_entry.get()
-        with open("./Password_Manager/password.json",'r') as pw:
-            data=json.load(pw)
-        username_entry.insert(0,data[website]["username"])
-        password_entry.insert(0,data[website]["password"])
+        try:
+            with open("./Password_Manager/password.json",'r') as pw:
+                data=json.load(pw)
+        except FileNotFoundError:
+            with open("./Password_Manager/password.json",'w') as pw:
+                json.dump({},pw)
+                messagebox.showerror("Error","Data file not found, please save some data first")
+        else:
+            if(website in data):
+                messagebox.showinfo("Password Found",f"Website: {website}\nUsername: {data[website]['username']}\nPassword: {data[website]['password']}")
+            else:
+                messagebox.showerror("ERROR!","No such entry found")
+            
         
 #--------------------GUI--------------------#
 window=Tk()
