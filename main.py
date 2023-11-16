@@ -1,21 +1,25 @@
 from tkinter import *
 from tkinter import messagebox
 import pyperclip
+import json
 
 #--------------------ADD TO TXT--------------------#
 def add_to_txt():
     if website_entry.get()=="" or username_entry.get()=="" or password_entry.get()=="":
         messagebox.showerror("Form", "Enter usrname and website!",icon ='error')
     else:
-        with open("./Password_Manager/password.txt",'a+') as pw:
-            pw.seek(0)
-            content=pw.read()
-            if not content.startswith("|  Website  |  USERNAME  |  Password  |"):
-                pw.seek(0)
-                pw.write("""|  Website  |  USERNAME  |  Password  |\n""")
-                
-            pw.seek(0,2)
-            pw.write(f"|  {website_entry.get()}  |  {username_entry.get()}  |  {password_entry.get()}  |\n")
+        new_pass={website_entry.get():{"password": password_entry.get(),"username":username_entry.get()}}
+        try:
+            with open("./Password_Manager/password.json",'r') as pw:
+                data=json.load(pw)
+        except FileNotFoundError:
+            pw=open("./Password_Manager/password.json",'w') 
+            json.dump(new_pass,pw,indent=5)
+            pw.close()
+        else:
+            data.update(new_pass)    #updating json data
+            with open("./Password_Manager/password.json",'w') as pw:
+                json.dump(data,pw,indent=5)
             
         website_entry.delete(0,END)
         username_entry.delete(0,END)
