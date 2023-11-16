@@ -20,12 +20,12 @@ def add_to_txt():
             data.update(new_pass)    #updating json data
             with open("./Password_Manager/password.json",'w') as pw:
                 json.dump(data,pw,indent=5)
-            
-        website_entry.delete(0,END)
-        username_entry.delete(0,END)
-        password_entry.delete(0,END)
+        finally:
+            website_entry.delete(0,END)
+            username_entry.delete(0,END)
+            password_entry.delete(0,END)
         
-        messagebox.showinfo("Information","Password Saved")
+            messagebox.showinfo("Information","Password Saved")
         
 #--------------------PASSOWRD DISPLAY--------------------#
 import random
@@ -52,6 +52,16 @@ def generate():
         password_entry.delete(0,END)
         password_entry.insert(0,f"{create_password()}")
         
+def search():
+    if website_entry.get()=="":
+        messagebox.showerror("Form", "Enter usrname and website!",icon ='error')
+    else:
+        website=website_entry.get()
+        with open("./Password_Manager/password.json",'r') as pw:
+            data=json.load(pw)
+        username_entry.insert(0,data[website]["username"])
+        password_entry.insert(0,data[website]["password"])
+        
 #--------------------GUI--------------------#
 window=Tk()
 window.title("Password Generator")
@@ -69,7 +79,7 @@ canvas.grid(row=0,column=1)
 # background.create_image(100,100,image=bg)
 # background.grid(row=0,column=1)
 
-website_entry=Entry(width=35)
+website_entry=Entry(width=25)
 website_entry.grid(row=1,column=1,columnspan=2)
 
 username_entry=Entry(width=35)
@@ -85,6 +95,9 @@ generate.grid(row=3,column=2)
 add=Button(text="Add",width=36,command=add_to_txt)
 add.config(font=("courier",10,"bold"))
 add.grid(row=4,column=1,columnspan=2)
+
+search_button=Button(text="Search",command=search)
+search_button.grid(row=1,column=2,columnspan=2)
 
 website_label=Label(text="Website: ",height=2,font=("courier",10,"bold"))
 website_label.grid(row=1,column=0)
