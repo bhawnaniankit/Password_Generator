@@ -3,7 +3,7 @@ from tkinter import messagebox
 import pyperclip
 import json
 
-#--------------------ADD TO TXT--------------------#
+#--------------------ADD TO JSON--------------------#
 def add_to_txt():
     if website_entry.get()=="" or username_entry.get()=="" or password_entry.get()=="":
         messagebox.showerror("Form", "Enter usrname and website!",icon ='error')
